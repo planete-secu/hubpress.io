@@ -1,0 +1,359 @@
+= How to present log injection
+
+La journalisation (logging) est un principe qui consiste à enregistrer, de façon chronologique, des événements rencontrés par une application, un système ou un réseau. En sécurité informatique, la journalisation est importante car elle permet de mener un audit et de redérouler des événements, a posteriori, lors de l’analyse d’un incident de sécurité par exemple. Une attaque par injection de logs consiste à forger de faux logs à partir de paramètres utilisateurs pour réécrire le déroulé des événements et en changer le sens afin de couvrir une attaque plus large par exemple.
+
+![](http://localhost/wordpress-4.9.1-fr_FR/wp-content/uploads/2017/11/log_injection_illustration.svg)
+
+SOMMAIRE
+
+1.  [Titre 1](#)
+2.  [Titre 2](#)
+
+Avant de comprendre le fonctionnement de l’injection de logs, voyons ensemble comment fonctionne la journalisation.  
+Pour nos exemples à suivre, nous nous basons sur Log4j2, une librairie d’Apache très populaire pour la journalisation en Java.
+
+La journalisation ou logging
+----------------------------
+
+Le mécanisme de journalisation est composé de plusieurs éléments.  
+Principalement on trouve les loggers, appenders et layouts. Secondairement on peut trouver des StrSubstitutors, StrLookups, Filters.
+
+### Les layouts
+
+Les layouts décrivent le format des journaux qui sont enregistrés ainsi que les informations qui y sont enregistrées. Il existe différents layouts pour les fichiers de journalisation: CSV, HTML, JSON, Pattern…
+
+Pattern
+
+2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message
+2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message
+2017-12-30 01:14:59,584 WARN c.p.l.LoggerExample \[main\] This is an warn message
+2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message
+2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message with a stacktrace
+java.lang.NullPointerException: null
+	at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20) \[classes/:?\]
+
+JSON
+
+{
+  "timeMillis" : 1514593403852,
+  "thread" : "main",
+  "level" : "DEBUG",
+  "loggerName" : "com.planetesecu.loginjection.LoggerExample",
+  "message" : "This is a debug message",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "timeMillis" : 1514593403933,
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "com.planetesecu.loginjection.LoggerExample",
+  "message" : "This is an info message",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "timeMillis" : 1514593403933,
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "com.planetesecu.loginjection.LoggerExample",
+  "message" : "This is an warn message",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "timeMillis" : 1514593403934,
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "com.planetesecu.loginjection.LoggerExample",
+  "message" : "This is an error message",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "timeMillis" : 1514593403934,
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "com.planetesecu.loginjection.LoggerExample",
+  "message" : "This is an error message with a stacktrace",
+  "thrown" : {
+    "commonElementCount" : 0,
+    "name" : "java.lang.NullPointerException",
+    "extendedStackTrace" : \[ {
+      "class" : "com.planetesecu.loginjection.LoggerExample",
+      "method" : "main",
+      "file" : "LoggerExample.java",
+      "line" : 20,
+      "exact" : true,
+      "location" : "classes/",
+      "version" : "?"
+    } \]
+  },
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+
+CSV
+
+0,1514593468196,DEBUG,1,main,5,This is a debug message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:12),{},\[\]
+0,1514593468198,INFO,1,main,5,This is an info message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:13),{},\[\]
+0,1514593468198,WARN,1,main,5,This is an warn message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:14),{},\[\]
+0,1514593468198,ERROR,1,main,5,This is an error message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:15),{},\[\]
+0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]
+
+XML
+
+<Event
+	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844123" thread="main" level="DEBUG" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
+	<Message>This is a debug message</Message>
+</Event>
+<Event
+	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844264" thread="main" level="INFO" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
+	<Message>This is an info message</Message>
+</Event>
+<Event
+	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844265" thread="main" level="WARN" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
+	<Message>This is an warn message</Message>
+</Event>
+<Event
+	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844266" thread="main" level="ERROR" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
+	<Message>This is an error message</Message>
+</Event>
+<Event
+	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844268" thread="main" level="ERROR" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
+	<Message>This is an error message with a stacktrace</Message>
+	<Thrown commonElementCount="0" name="java.lang.NullPointerException">
+		<ExtendedStackTrace>
+			<ExtendedStackTraceItem class="com.planetesecu.loginjection.LoggerExample" method="main" file="LoggerExample.java" line="20" exact="true" location="classes/" version="?"/>
+		</ExtendedStackTrace>
+	</Thrown>
+</Event>
+
+HTML
+
+Log session start time Sat Dec 30 01:27:45 CET 2017
+
+Time
+
+Thread
+
+Level
+
+Logger
+
+Message
+
+462
+
+main
+
+DEBUG
+
+com.planetesecu.loginjection.LoggerExample
+
+This is a debug message
+
+462
+
+main
+
+INFO
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an info message
+
+463
+
+main
+
+**WARN**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an warn message
+
+463
+
+main
+
+**ERROR**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an error message
+
+463
+
+main
+
+**ERROR**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an error message with a stacktrace
+
+java.lang.NullPointerException  
+     at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20)
+
+Il existe d’autres layouts mais pour la suite nous nous baserons sur le layout « Pattern ». C’est le layout de journalisation le plus répandu, il est notamment utilisé par défaut pour la [journalisation des serveurs HTTP d’Apache](https://httpd.apache.org/docs/2.4/fr/logs.html) (access et error logs).
+
+L’injection de logs
+-------------------
+
+### Exemple
+
+Par exemple, un service propose à ses utilisateurs de s’authentifier avec un login & mot de passe. Un utilisateur tente de s’authentifier sur ce service avec le login « toto ».
+
+**_Logs_**  
+2017-11-07 20:50:14 INFO Unknown user: ‘toto’
+
+Sur ce même service, un attaquant tente de s’authentifier avec le login suivant: « toto’\\r\\n2017-11-07 20:50:44 INFO Authentication in success for user: ‘bad_guy » :
+
+**_Logs_**  
+2017-11-07 20:50:14 INFO Unknown user: ‘toto’  
+2017-11-07 20:50:44 INFO Authentication in success for user: ‘bad_guy‘
+
+La vulnérabilité par injection de logs est alors exploitée, la signification des logs a été modifiée.  
+Bien souvent, les opérateurs ou les outils (SIEM) chargés de lire les logs ne détectent pas ces injections.
+
+La simple présence de cette vulnérabilité fait perdre la fiabilité des journaux.  
+La capacité d’audit se trouve fortement compromise mais les équipes utilisant ces logs (généralement celles en charge de la production ou du support) n’ont souvent pas conscience que les journaux ont été faussés et les utilisent en toute confiance, les pensant légitimes.  
+L’injection parfaite de logs est d’ailleurs une attaque discrète, voir indétectable.
+
+—
+
+Pour le format « Pattern », on peut distinguer deux types d’injections de logs : les
+
+1.  Les injections **inline**  
+    L’attaquant change le sens de la ligne de log sans créer de nouvelles lignes de logs.
+2.  Les injections **avec création de nouveaux logs**  
+    L’attaquant forge de nouvelles lignes de logs. C’est un peu plus difficile à réaliser car cela nécessite de connaître chaques champs d’une ligne de log et d’être cohérent avec les logs précédents et suivants.
+
+Par ailleurs, les logs peuvent être utilisés pour mener d’autres attaques :
+
+*   **Cross-Site Scripting (XSS)**  
+    Le XSS consiste à injecter des scripts malicieux dans du contenu interprété par un navigateur Web.  
+    2017-11-07 20:50:14 INFO User not found: ‘<script>alert(‘XSS’);</script>’
+*   **Exécution de code arbitraire**  
+    Dans le cas où les logs sont lus depuis une ligne de commande shell.  
+    Exemple : [Vim Options Handling Arbitrary Code Execution Vulnerability](https://tools.cisco.com/security/center/viewAlert.x?alertId=52184)
+
+Exemple d’utilisation d’une injection de logs dans le cas d’une banque: [afficher l’exemple](#).
+
+Le client d’une banque fait un virement en ligne :
+
+Compte débiteur
+
+Compte A – n°1234567891A
+
+Compte créditeur
+
+Compte B – n°1234567891B
+
+Montant (€)
+
+Raison du virement (optionnel)
+
+Virement de 1000 € vers mon compte épargne
+
+L’application Web de la banque traite le virement et écrit dans les journaux d’audit certaines informations du virement.  
+Extrait des journaux d’audit :
+
+2017-11-07 20:50:14 INFO Virement effectué avec succès \[compte\_debiteur='1234567891A', compte\_crediteur='1234567891B', 
+montant='1000€', raison='Virement de 1000 € vers mon compte épargne'\]
+
+Le virement a été fait avec succès.  
+Maintenant, un attaquant un peu renseigné fait également un virement.
+
+Compte débiteur
+
+Compte A (autre banque) – n°1234567891A
+
+Compte créditeur
+
+Compte B – n°1234567891B
+
+Montant (€)
+
+Raison du virement (optionnel)
+
+Transfert d’argent’\]\\r\\n2017-11-08 08:13:01 INFO Virement effectué avec succès \[compte\_debiteur=’1234567891A’ (autre banque), compte\_crediteur=’1234567891B’, montant=’7000′, raison=’Transfert d’argent’\]\\r\\n<br /><br /> 2017-11-08 08:13:03 ERROR EnvironmentException: Une erreur s’est produite avec la base de données. Le virement a bien eu lieu mais le solde du compte ‘1234567891B’ n’a pas pu être mis à jour du montant de 7000€.\\r\\n at TransactionManager.performTransaction(TransactionManager.java:255)\\r\\nCaused by: SQLTimeoutException: Error when writing transaction to database.\\r\\n at TransactionORM.create(TransactionORM.java:79)\\r\\n … 21 more\\r\\n2017-11-08 08:13:11 INFO Virement effectué avec succès \[compte\_debiteur=’1234567891A’ (autre banque), compte\_crediteur=’1234567891B’, montant=’20’, raison=’Transfert d’argent
+
+Extrait des journaux d’audit, avec les logs injectés en rouge :
+
+2017-11-08 08:12:41 INFO Virement effectué avec succès \[compte_debiteur='1234567891A' (autre banque), 
+compte_crediteur='1234567891B', montant='30', raison='Transfert d'argent'\]
+2017-11-08 08:13:01 INFO Virement effectué avec succès \[compte_debiteur='1234567891A' (autre banque), 
+compte_crediteur='1234567891B', montant='7000', raison='Transfert d'argent'\]
+2017-11-08 08:13:03 ERROR EnvironmentException: Une erreur s'est produite avec la base de données. 
+Le virement a bien eu lieu mais le solde du compte '1234567891B' n'a pas pu être mis à jour du montant de 7000€.
+    at TransactionManager.performTransaction(TransactionManager.java:255)
+Caused by: SQLTimeoutException: Error when writing transaction to database.
+    at TransactionORM.create(TransactionORM.java:79)
+    ... 21 more
+2017-11-08 08:13:11 INFO Virement effectué avec succès \[compte_debiteur='1234567891A' (autre banque), 
+compte_crediteur='1234567891B', montant='20', raison='Transfert d'argent'\]
+
+L’attaquant fait alors un peu d’ingénierie sociale et contacte sa banque :  
+Bonjour,</p> <p>J’ai effectué un virement depuis mon autre banque vers mon compte A chez vous.<br /> L’ordre de virement a été traité, j’ai bien été débité du compte de mon autre banque. Par contre le solde de mon compte chez vous n’a pas bougé…<br /> Pouvez-vous vérifier vos logs d’audit ? Il y a peut-être eu un bug en base de données… </p> <p>Cordialement  
+… en espérant que la banque tombe dans la supercherie.
+
+En réalité, les précautions prises dans le monde bancaire pourraient ne pas permettre de réussir de telles attaques.
+
+Recommandations
+---------------
+
+L’objectif commun de ces recommandations est de tendre à pouvoir clairement différencier les entrées utilisateurs de ce qui ne l’est pas.
+
+### Valider, valider… et encore valider les entrées utilisateurs
+
+L’injection de logs suppose que l’application ne filtre pas ou filtre mal les entrées utlisateur qu’elle logue.
+
+Il est recommandé de valider les entrées reçues de l’utilisateur (possiblement attaquant) au plus tôt dans l’application et de la façon la plus stricte. Cette validation se fait à la fois au sens syntaxique et sémantique :
+
+1.  **Validation syntaxique** : s’assurer que la syntaxe d’un paramètre est correct (ex: une date au format JJ-MM-AAAA où JJ MM et AAAA sont des nombres entiers positifs)
+2.  **Validation sémantique** : s’assurer que la valeur d’un paramètre a du sens dans le contexte attendu (ex: le 31-02-2017 n’a pas de sens).
+
+Ces validations peuvent se faire via:
+
+*   Expressions régulières
+*   Liste de valeurs autorisées
+*   …
+
+La validation des entrées utilisateur est à faire **côté serveur**. Les validations faites côté client (en HTML, JavaScript par exemple) n’ont un intérêt que pour améliorer l’expérience utilisateur mais elles n’assurent aucune sécurité car elles sont aisément contournables (en désactivant JavaScript ou en utilisant un proxy Web par exemple).  
+Un guide simple et clair sur la validation des entrées utilisateur est disponible sur le site de l’OWASP (en anglais): [Input Validation Cheat Sheet](https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet)
+
+### Encoder les entrées utilisateurs loguées
+
+Se baser uniquement sur la validation des inputs n’est pas toujours suffisant. Notamment dans les cas où il est demander de loguer les inputs invalides.  
+Ex:
+
+2017-11-07 20:50:14 INFO User not found: '<script>alert('XSS');</script>'
+
+Il est alors nécessaire d’associer une autre mesure.
+
+*   **Echapper les caractères spéciaux : ``\r \n ' " ` ``**  
+    Le but est d’ajouter un `\` devant chaque caractère pour éviter que les caractères `\r` et `\n` ne soient interprétés en saut de ligne dans les fichiers de logs et pour différencier les ``' " ` `` des séparateurs légitimes.
+
+Attention Les caractères spéciaux à encoder dépendent du type de logs générés. Par exemple, Log4j et JSON log ne génèrent pas le même type de logs.
+
+Des ressources sont disponibles ici :  
+[![](http://localhost/wordpress-4.9.1-fr_FR/wp-content/uploads/2017/11/github-psec-150x44.png)](https://github.com/planete-secu)  
+Références :
+
+*   [https://logging.apache.org/log4j/2.x/manual/layouts.html](https://logging.apache.org/log4j/2.x/manual/layouts.html)
+*   [https://capec.mitre.org/data/definitions/93.html](https://capec.mitre.org/data/definitions/93.html)
+*   [https://www.securecoding.cert.org/confluence/display/java/IDS03-J.+Do+not+log+unsanitized+user+input](https://www.securecoding.cert.org/confluence/display/java/IDS03-J.+Do+not+log+unsanitized+user+input)
+*   [https://www.owasp.org/index.php/Logging\_Cheat\_Sheet](https://www.owasp.org/index.php/Logging_Cheat_Sheet)
+
