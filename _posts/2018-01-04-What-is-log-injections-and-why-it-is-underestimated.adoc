@@ -27,11 +27,11 @@ Incenderat autem audaces usque ad insaniam homines ad haec, quae nefariis egere 
 ## Pattern
 
 ```
-2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message
-2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message
-2017-12-30 01:14:59,584 WARN c.p.l.LoggerExample \[main\] This is an warn message
-2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message
-2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message with a stacktrace
+2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample [main] This is a debug message
+2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample [main] This is an info message
+2017-12-30 01:14:59,584 WARN c.p.l.LoggerExample [main] This is an warn message
+2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample [main] This is an error message
+2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample [main] This is an error message with a stacktrace
 java.lang.NullPointerException: null
 	at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20) \[classes/:?\]
 ```
