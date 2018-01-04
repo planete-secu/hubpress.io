@@ -1,11 +1,12 @@
 = Why log injections are underestimated?
 
-Log injections consists to inject logs into logs file.
+Log injections consist to inject fake entries into logs file.
 
 # Log4J2 layouts
 
 ## Pattern
 
+```
 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message
 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message
 2017-12-30 01:14:59,584 WARN c.p.l.LoggerExample \[main\] This is an warn message
@@ -13,9 +14,10 @@ Log injections consists to inject logs into logs file.
 2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message with a stacktrace
 java.lang.NullPointerException: null
 	at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20) \[classes/:?\]
-
+```
 ## JSON
 
+```
 {
   "timeMillis" : 1514593403852,
   "thread" : "main",
@@ -84,9 +86,11 @@ java.lang.NullPointerException: null
   "threadId" : 1,
   "threadPriority" : 5
 }
+```
 
 ## CSV
 
+```
 0,1514593468196,DEBUG,1,main,5,This is a debug message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:12),{},\[\]
 0,1514593468198,INFO,1,main,5,This is an info message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:13),{},\[\]
 0,1514593468198,WARN,1,main,5,This is an warn message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:14),{},\[\]
@@ -120,9 +124,11 @@ java.lang.NullPointerException: null
 		</ExtendedStackTrace>
 	</Thrown>
 </Event>
+```
 
 ## HTML
 
+```
 Log session start time Sat Dec 30 01:27:45 CET 2017
 
 Time
@@ -186,4 +192,7 @@ com.planetesecu.loginjection.LoggerExample
 This is an error message with a stacktrace
 
 java.lang.NullPointerException  
-     at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20)
+     at 
+```
+
+ddd
