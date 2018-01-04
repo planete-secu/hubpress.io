@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="https://planete-secu.github.io/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515097839589" />
+    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515098601005" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
 
     <link rel="canonical" href="https://planete-secu.github.io/2018/01/04/Why-log-injections-are-underestimated.html" />
@@ -21,12 +21,12 @@
     <meta property="og:site_name" content="Planète Sécu" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Why log injections are underestimated?" />
-    <meta property="og:description" content="Log injections consists to inject logs into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message 2017-12-30 01:14:59,584 WARN" />
+    <meta property="og:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message 2017-12-30 01:14:59,584" />
     <meta property="og:url" content="https://planete-secu.github.io/2018/01/04/Why-log-injections-are-underestimated.html" />
     <meta property="article:published_time" content="2018-01-04T00:00:00.000Z" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Why log injections are underestimated?" />
-    <meta name="twitter:description" content="Log injections consists to inject logs into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message 2017-12-30 01:14:59,584 WARN" />
+    <meta name="twitter:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message 2017-12-30 01:14:59,584" />
     <meta name="twitter:url" content="https://planete-secu.github.io/2018/01/04/Why-log-injections-are-underestimated.html" />
     
     <script type="application/ld+json">
@@ -45,7 +45,7 @@
     "headline": "Why log injections are underestimated?",
     "url": "https://planete-secu.github.io/2018/01/04/Why-log-injections-are-underestimated.html",
     "datePublished": "2018-01-04T00:00:00.000Z",
-    "description": "Log injections consists to inject logs into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \\[main\\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \\[main\\] This is an info message 2017-12-30 01:14:59,584 WARN"
+    "description": "Log injections consist to inject fake entries into logs file. Log4J2 layouts Pattern 2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \\[main\\] This is a debug message 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \\[main\\] This is an info message 2017-12-30 01:14:59,584"
 }
     </script>
 
@@ -84,7 +84,7 @@
             <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Log injections consists to inject logs into logs file.</p>
+<p>Log injections consist to inject fake entries into logs file.</p>
 </div>
 </div>
 </div>
@@ -92,22 +92,25 @@
 <div class="sect1">
 <h2 id="_pattern">Pattern</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>2017-12-30 01:14:59,578 DEBUG c.p.l.LoggerExample \[main\] This is a debug message
 2017-12-30 01:14:59,583 INFO c.p.l.LoggerExample \[main\] This is an info message
 2017-12-30 01:14:59,584 WARN c.p.l.LoggerExample \[main\] This is an warn message
 2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message
 2017-12-30 01:14:59,584 ERROR c.p.l.LoggerExample \[main\] This is an error message with a stacktrace
 java.lang.NullPointerException: null
-	at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20) \[classes/:?\]</p>
+	at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20) \[classes/:?\]</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_json">JSON</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>{
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
   "timeMillis" : 1514593403852,
   "thread" : "main",
   "level" : "DEBUG",
@@ -174,27 +177,25 @@ java.lang.NullPointerException: null
   "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
   "threadId" : 1,
   "threadPriority" : 5
-}</p>
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_csv">CSV</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>0,1514593468196,DEBUG,1,main,5,This is a debug message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:12),{},\[\]
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>0,1514593468196,DEBUG,1,main,5,This is a debug message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:12),{},\[\]
 0,1514593468198,INFO,1,main,5,This is an info message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:13),{},\[\]
 0,1514593468198,WARN,1,main,5,This is an warn message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:14),{},\[\]
 0,1514593468198,ERROR,1,main,5,This is an error message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:15),{},\[\]
-0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_xml">XML</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>&lt;Event
+0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]
+
+## XML
+
+&lt;Event
 	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844123" thread="main" level="DEBUG" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5"&gt;
 	&lt;Message&gt;This is a debug message&lt;/Message&gt;
 &lt;/Event&gt;
@@ -218,109 +219,84 @@ java.lang.NullPointerException: null
 			&lt;ExtendedStackTraceItem class="com.planetesecu.loginjection.LoggerExample" method="main" file="LoggerExample.java" line="20" exact="true" location="classes/" version="?"/&gt;
 		&lt;/ExtendedStackTrace&gt;
 	&lt;/Thrown&gt;
-&lt;/Event&gt;</p>
+&lt;/Event&gt;</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_html">HTML</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Log session start time Sat Dec 30 01:27:45 CET 2017</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>Log session start time Sat Dec 30 01:27:45 CET 2017
+
+Time
+
+Thread
+
+Level
+
+Logger
+
+Message
+
+462
+
+main
+
+DEBUG
+
+com.planetesecu.loginjection.LoggerExample
+
+This is a debug message
+
+462
+
+main
+
+INFO
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an info message
+
+463
+
+main
+
+**WARN**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an warn message
+
+463
+
+main
+
+**ERROR**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an error message
+
+463
+
+main
+
+**ERROR**
+
+com.planetesecu.loginjection.LoggerExample
+
+This is an error message with a stacktrace
+
+java.lang.NullPointerException
+     at</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Time</p>
-</div>
-<div class="paragraph">
-<p>Thread</p>
-</div>
-<div class="paragraph">
-<p>Level</p>
-</div>
-<div class="paragraph">
-<p>Logger</p>
-</div>
-<div class="paragraph">
-<p>Message</p>
-</div>
-<div class="paragraph">
-<p>462</p>
-</div>
-<div class="paragraph">
-<p>main</p>
-</div>
-<div class="paragraph">
-<p>DEBUG</p>
-</div>
-<div class="paragraph">
-<p>com.planetesecu.loginjection.LoggerExample</p>
-</div>
-<div class="paragraph">
-<p>This is a debug message</p>
-</div>
-<div class="paragraph">
-<p>462</p>
-</div>
-<div class="paragraph">
-<p>main</p>
-</div>
-<div class="paragraph">
-<p>INFO</p>
-</div>
-<div class="paragraph">
-<p>com.planetesecu.loginjection.LoggerExample</p>
-</div>
-<div class="paragraph">
-<p>This is an info message</p>
-</div>
-<div class="paragraph">
-<p>463</p>
-</div>
-<div class="paragraph">
-<p>main</p>
-</div>
-<div class="paragraph">
-<p><strong>WARN</strong></p>
-</div>
-<div class="paragraph">
-<p>com.planetesecu.loginjection.LoggerExample</p>
-</div>
-<div class="paragraph">
-<p>This is an warn message</p>
-</div>
-<div class="paragraph">
-<p>463</p>
-</div>
-<div class="paragraph">
-<p>main</p>
-</div>
-<div class="paragraph">
-<p><strong>ERROR</strong></p>
-</div>
-<div class="paragraph">
-<p>com.planetesecu.loginjection.LoggerExample</p>
-</div>
-<div class="paragraph">
-<p>This is an error message</p>
-</div>
-<div class="paragraph">
-<p>463</p>
-</div>
-<div class="paragraph">
-<p>main</p>
-</div>
-<div class="paragraph">
-<p><strong>ERROR</strong></p>
-</div>
-<div class="paragraph">
-<p>com.planetesecu.loginjection.LoggerExample</p>
-</div>
-<div class="paragraph">
-<p>This is an error message with a stacktrace</p>
-</div>
-<div class="paragraph">
-<p>java.lang.NullPointerException
-     at com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:20)</p>
+<p>ddd</p>
 </div>
 </div>
 </div>
@@ -393,8 +369,8 @@ java.lang.NullPointerException: null
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515097839589"></script>
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515097839589"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515098601005"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515098601005"></script>
 
 </body>
 </html>
