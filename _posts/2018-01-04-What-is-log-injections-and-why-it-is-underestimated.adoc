@@ -116,9 +116,11 @@ java.lang.NullPointerException: null
 0,1514593468198,WARN,1,main,5,This is an warn message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:14),{},\[\]
 0,1514593468198,ERROR,1,main,5,This is an error message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:15),{},\[\]
 0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]
+```
 
 ## XML
 
+```
 <Event
 	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844123" thread="main" level="DEBUG" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5">
 	<Message>This is a debug message</Message>
