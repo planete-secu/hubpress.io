@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="https://planete-secu.github.io/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515107265057" />
+    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515107506364" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
 
     <link rel="canonical" href="https://planete-secu.github.io/2018/01/04/What-is-log-injections-and-why-it-is-underestimated.html" />
@@ -21,12 +21,12 @@
     <meta property="og:site_name" content="Planète Sécu" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="What is log injections and why it is underestimated?" />
-    <meta property="og:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts &amp;lt;img alt&#x3D;&quot;Download on the App Store&quot; title&#x3D;&quot;App Store&quot; src&#x3D;&quot;http://i.imgur.com/0n2zqHD.png&quot; width&#x3D;&quot;140&quot;&amp;gt; ![gaze](http://dontkry.com/images/repos/gaze.png) Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra" />
+    <meta property="og:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra modum delatae dignitatis sese efferens insolenter, vir quidem prudens et forensium negotiorum oppido gnarus, sed splendore liberalium doctrinarum minus quam nobilem decuerat institutus, quo administrante" />
     <meta property="og:url" content="https://planete-secu.github.io/2018/01/04/What-is-log-injections-and-why-it-is-underestimated.html" />
     <meta property="article:published_time" content="2018-01-04T00:00:00.000Z" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="What is log injections and why it is underestimated?" />
-    <meta name="twitter:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts &amp;lt;img alt&#x3D;&quot;Download on the App Store&quot; title&#x3D;&quot;App Store&quot; src&#x3D;&quot;http://i.imgur.com/0n2zqHD.png&quot; width&#x3D;&quot;140&quot;&amp;gt; ![gaze](http://dontkry.com/images/repos/gaze.png) Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra" />
+    <meta name="twitter:description" content="Log injections consist to inject fake entries into logs file. Log4J2 layouts Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra modum delatae dignitatis sese efferens insolenter, vir quidem prudens et forensium negotiorum oppido gnarus, sed splendore liberalium doctrinarum minus quam nobilem decuerat institutus, quo administrante" />
     <meta name="twitter:url" content="https://planete-secu.github.io/2018/01/04/What-is-log-injections-and-why-it-is-underestimated.html" />
     
     <script type="application/ld+json">
@@ -45,7 +45,7 @@
     "headline": "What is log injections and why it is underestimated?",
     "url": "https://planete-secu.github.io/2018/01/04/What-is-log-injections-and-why-it-is-underestimated.html",
     "datePublished": "2018-01-04T00:00:00.000Z",
-    "description": "Log injections consist to inject fake entries into logs file. Log4J2 layouts &amp;lt;img alt&#x3D;&quot;Download on the App Store&quot; title&#x3D;&quot;App Store&quot; src&#x3D;&quot;http://i.imgur.com/0n2zqHD.png&quot; width&#x3D;&quot;140&quot;&amp;gt; ![gaze](http://dontkry.com/images/repos/gaze.png) Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra"
+    "description": "Log injections consist to inject fake entries into logs file. Log4J2 layouts Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra modum delatae dignitatis sese efferens insolenter, vir quidem prudens et forensium negotiorum oppido gnarus, sed splendore liberalium doctrinarum minus quam nobilem decuerat institutus, quo administrante"
 }
     </script>
 
@@ -89,11 +89,10 @@
 </div>
 </div>
 <h1 id="_log4j2_layouts" class="sect0">Log4J2 layouts</h1>
-<div class="paragraph">
-<p>&lt;img alt="Download on the App Store" title="App Store" src="http://i.imgur.com/0n2zqHD.png" width="140"&gt;</p>
+<div class="imageblock">
+<div class="content">
+<img src="https://www.planete-secu.com/wp-content/uploads/billet-pourquoi-site-http-vulnerables.svg" alt="http vs https">
 </div>
-<div class="paragraph">
-<p>![gaze](<a href="http://dontkry.com/images/repos/gaze.png" class="bare">http://dontkry.com/images/repos/gaze.png</a>)</p>
 </div>
 <div class="paragraph">
 <p>Inter haec Orfitus praefecti potestate regebat urbem aeternam ultra modum delatae dignitatis sese efferens insolenter, vir quidem prudens et forensium negotiorum oppido gnarus, sed splendore liberalium doctrinarum minus quam nobilem decuerat institutus, quo administrante seditiones sunt concitatae graves ob inopiam vini: huius avidis usibus vulgus intentum ad motus asperos excitatur et crebros.</p>
@@ -109,6 +108,11 @@
 </div>
 <div class="paragraph">
 <p>Thalassius vero ea tempestate praefectus praetorio praesens ipse quoque adrogantis ingenii, considerans incitationem eius ad multorum augeri discrimina, non maturitate vel consiliis mitigabat, ut aliquotiens celsae potestates iras principum molliverunt, sed adversando iurgandoque cum parum congrueret, eum ad rabiem potius evibrabat, Augustum actus eius exaggerando creberrime docens, idque, incertum qua mente, ne lateret adfectans. quibus mox Caesar acrius efferatus, velut contumaciae quoddam vexillum altius erigens, sine respectu salutis alienae vel suae ad vertenda opposita instar rapidi fluminis irrevocabili impetu ferebatur.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://www.planete-secu.com/wp-content/uploads/billet-gestionnaire-mot-passe-dashlane-keepass.svg" alt="billet gestionnaire mot passe dashlane keepass.svg">
+</div>
 </div>
 <div class="paragraph">
 <p>Circa hos dies Lollianus primae lanuginis adulescens, Lampadi filius ex praefecto, exploratius causam Maximino spectante, convictus codicem noxiarum artium nondum per aetatem firmato consilio descripsisse, exulque mittendus, ut sperabatur, patris inpulsu provocavit ad principem, et iussus ad eius comitatum duci, de fumo, ut aiunt, in flammam traditus Phalangio Baeticae consulari cecidit funesti carnificis manu.</p>
@@ -396,8 +400,8 @@ java.lang.NullPointerException
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515107265057"></script>
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515107265057"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515107506364"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515107506364"></script>
 
 </body>
 </html>
