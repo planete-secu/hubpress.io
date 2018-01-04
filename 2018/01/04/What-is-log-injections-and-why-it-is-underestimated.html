@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="https://planete-secu.github.io/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515109303218" />
+    <link rel="stylesheet" type="text/css" href="//planete-secu.github.io/themes/casper/assets/css/screen.css?v=1515109918444" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
 
     <link rel="canonical" href="https://planete-secu.github.io/2018/01/04/What-is-log-injections-and-why-it-is-underestimated.html" />
@@ -222,11 +222,17 @@ java.lang.NullPointerException: null
 0,1514593468198,INFO,1,main,5,This is an info message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:13),{},\[\]
 0,1514593468198,WARN,1,main,5,This is an warn message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:14),{},\[\]
 0,1514593468198,ERROR,1,main,5,This is an error message,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:15),{},\[\]
-0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]
-
-## XML
-
-&lt;Event
+0,1514593468198,ERROR,1,main,5,This is an error message with a stacktrace,org.apache.logging.log4j.spi.AbstractLogger,com.planetesecu.loginjection.LoggerExample,,java.lang.NullPointerException,com.planetesecu.loginjection.LoggerExample.main(LoggerExample.java:22),{},\[\]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_xml">XML</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;Event
 	xmlns="http://logging.apache.org/log4j/2.0/events" timeMillis="1514593844123" thread="main" level="DEBUG" loggerName="com.planetesecu.loginjection.LoggerExample" endOfBatch="false" loggerFqcn="org.apache.logging.log4j.spi.AbstractLogger" threadId="1" threadPriority="5"&gt;
 	&lt;Message&gt;This is a debug message&lt;/Message&gt;
 &lt;/Event&gt;
@@ -400,8 +406,8 @@ java.lang.NullPointerException
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515109303218"></script>
-    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515109303218"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/jquery.fitvids.js?v=1515109918444"></script>
+    <script type="text/javascript" src="//planete-secu.github.io/themes/casper/assets/js/index.js?v=1515109918444"></script>
 
 </body>
 </html>
